@@ -1,3 +1,5 @@
+import StageList from './utils/StageList';
+
 export type Measure<T extends number> = T extends 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 ? T : never;
 export type Append<T extends any[], U> = {
   0: [U];
@@ -13,12 +15,27 @@ export type Append<T extends any[], U> = {
 
 export type HookCallBack<T> = (err: any, info: T) => any;
 
-export default abstract class Hook<T extends any[], R> {
-  abstract tap(key: string, fn: (...args: T) => R): void;
-  abstract tapPromise(key: string, pfn: (...args: T) => Promise<R>): void;
-  abstract tapAsync(key: string, afn: (...args: Append<T, HookCallBack<R>>) => void): void;
-  abstract call(...args: T): R;
-  abstract callAsync(...args: Append<T, HookCallBack<R>>): void;
-  abstract promise(...args: T): Promise<R>
+export type FixSizeArray<L extends number, T> = Array<T> & {
+  0: T,
+  length: L
+};
+
+export type ArgumentNames<T extends any[]> = FixSizeArray<T['length'], string>;
+
+export default class Hook<T extends any[]> {
+
+  taps: StageList<any>
+  args: ArgumentNames<T>
+
+  constructor(args: ArgumentNames<T>) {
+    this.args = args;
+    this.taps = new StageList<any>();
+  }
+  // abstract tap(key: string, fn: (...args: T) => R): void;
+  // abstract tapPromise(key: string, pfn: (...args: T) => Promise<R>): void;
+  // abstract tapAsync(key: string, afn: (...args: Append<T, HookCallBack<R>>) => void): void;
+  // abstract call(...args: T): R;
+  // abstract callAsync(...args: Append<T, HookCallBack<R>>): void;
+  // abstract promise(...args: T): Promise<R>
 }
 
