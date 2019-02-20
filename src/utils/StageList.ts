@@ -57,6 +57,8 @@ export class StageNode<T> {
 
 export type StageSort<T> = (curV: T, newV: T) => boolean
 
+export type StageForeachCallback<T> = (value: T) => any;
+
 export default class StageList<T> {
 
   first: StageNode<T>
@@ -66,6 +68,19 @@ export default class StageList<T> {
   init(value: T) {
     this.first = new StageNode<T>(value);
     this.last = this.first;
+  }
+
+  foreach(calback: StageForeachCallback<T>) {
+    if (!this.first) return;
+    let cur = this.first;
+    function handle() {
+      calback(cur.value);
+      if (cur.next) {
+        cur = cur.next;
+        handle();
+      }
+    }
+    handle();
   }
 
   check(node: StageNode<T>) {

@@ -27,6 +27,15 @@ export default class SyncHook<T extends any[], R> extends Hook<T> {
     })
   }
 
+  call(...args: T): R[] {
+    const results = [] as R[];
+    this.taps.foreach((value) => {
+      const { fn } = value;
+      results.push(fn(...args))
+    })
+    return results;
+  }
+
   private _insert(options: SyncHookTapOptions<T, R>): void {
     options.stage = options.stage || 0;
     this.taps.stageInsert(options, (curV: SyncHookTaps<T, R>, newV: SyncHookTaps<T, R>) => {
