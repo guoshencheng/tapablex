@@ -39,3 +39,13 @@ export default class Hook<T extends any[]> {
   // abstract promise(...args: T): Promise<R>
 }
 
+/**
+ * Hook tap's type
+ */
+
+export type SyncHookTaps<T extends any[], R> = {
+  fn: SyncHookCallBack<T, R>,
+  stage?: number,
+  name: string,
+  before?: string | string[],
+}

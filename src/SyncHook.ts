@@ -1,15 +1,9 @@
-import Hook from './Hook';
+import Hook, { SyncHookTaps } from './Hook';
 import StageList from './utils/StageList';
 import Logger from './utils/Logger';
 
 export type SyncHookCallBack<T extends any[], R> = (...args: T) => R
 
-export type SyncHookTaps<T extends any[], R> = {
-  fn: SyncHookCallBack<T, R>,
-  stage?: number,
-  name: string,
-  before?: string | string[],
-}
 
 export type SyncHookTapOptions<T extends any[], R> = SyncHookTaps<T, R> & {
   name?: string,
@@ -41,6 +35,7 @@ export default class SyncHook<T extends any[], R> extends Hook<T> {
     }
   }
 
+  call(...args: T): any;
   call(...args: T): R[] {
     const results = [] as R[];
     this.taps.foreach((value) => {
