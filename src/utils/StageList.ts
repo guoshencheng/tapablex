@@ -57,7 +57,7 @@ export class StageNode<T> {
 
 export type StageSort<T> = (curV: T, newV: T) => boolean
 
-export type StageForeachCallback<T> = (value: T) => boolean | undefined;
+export type StageForeachCallback<T> = (value: T) => boolean | undefined | void;
 
 export default class StageList<T> {
 
