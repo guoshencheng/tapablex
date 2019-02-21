@@ -22,9 +22,21 @@ export type FixSizeArray<L extends number, T> = Array<T> & {
 
 export type ArgumentNames<T extends any[]> = FixSizeArray<T['length'], string>;
 
-export default class Hook<T extends any[]> {
 
-  taps: StageList<any>
+export type HookTap<H> = {
+  fn: H,
+  stage?: number,
+  name: string,
+  before?: string | string[],
+}
+
+export type TapOptionAble<O> = O & {
+  name?: string
+}
+
+export default class Hook<T extends any[], H> {
+
+  taps: StageList<TapOptionAble<HookTap<H>>>
   args: ArgumentNames<T>
 
   constructor(args: ArgumentNames<T>) {
@@ -37,15 +49,20 @@ export default class Hook<T extends any[]> {
   // abstract call(...args: T): R;
   // abstract callAsync(...args: Append<T, HookCallBack<R>>): void;
   // abstract promise(...args: T): Promise<R>
-}
 
-/**
- * Hook tap's type
- */
-
-export type SyncHookTaps<T extends any[], R> = {
-  fn: SyncHookCallBack<T, R>,
-  stage?: number,
-  name: string,
-  before?: string | string[],
+  protected _insert(options: TapOptionAble<HookTap<H>>): void {
+    options.stage = options.stage || 0;
+    this.taps.stageInsert(options, (curV: HookTap<H>, newV: HookTap<H>) => {
+      const curVStage = curV.stage || 0;
+      const newVStage = newV.stage || 0;
+      let before;
+      if (newV.before && typeof newV.before === 'string') {
+        before = [newV.before];
+      } else {
+        before = newV.before || [];
+      }
+      const inBefore = curV.name && before.indexOf(curV.name) > -1;
+      return curVStage < newVStage && !inBefore;
+    })
+  }
 }
