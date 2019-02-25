@@ -34,13 +34,11 @@ export type TapOptionAble<O> = O & {
   name?: string
 }
 
-export default class Hook<T extends any[], H> {
+export default class Hook<H> {
 
   taps: StageList<TapOptionAble<HookTap<H>>>
-  args: ArgumentNames<T>
 
-  constructor(args: ArgumentNames<T>) {
-    this.args = args;
+  constructor() {
     this.taps = new StageList<any>();
   }
   // abstract tap(key: string, fn: (...args: T) => R): void;
