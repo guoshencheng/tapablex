@@ -7,7 +7,7 @@
     "noUnusedParameters": true,
     "noUnusedLocals": true,
     "allowSyntheticDefaultImports":true,
-    "target": "ES3",
+    "target": "ES5",
     "noImplicitAny": true,
     "declaration": true,
     "lib": [ "es2015", "dom" ]

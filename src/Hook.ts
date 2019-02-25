@@ -50,17 +50,20 @@ export default class Hook<H> {
 
   protected _insert(options: TapOptionAble<HookTap<H>>): void {
     options.stage = options.stage || 0;
-    this.taps.stageInsert(options, (curV: HookTap<H>, newV: HookTap<H>) => {
-      const curVStage = curV.stage || 0;
-      const newVStage = newV.stage || 0;
-      let before;
-      if (newV.before && typeof newV.before === 'string') {
-        before = [newV.before];
-      } else {
-        before = newV.before || [];
-      }
-      const inBefore = curV.name && before.indexOf(curV.name) > -1;
-      return curVStage < newVStage && !inBefore;
-    })
+    this.taps.stageInsert(options, SortTap)
   }
+}
+
+// type SortTapFunction<HOOKCALLBACK> = (curV: HookTap<HOOKCALLBACK>, newV: HookTap<HOOKCALLBACK>) => boolean;
+export const SortTap = (curV: HookTap<any>, newV: HookTap<any>) => {
+  const curVStage = curV.stage || 0;
+  const newVStage = newV.stage || 0;
+  let before;
+  if (newV.before && typeof newV.before === 'string') {
+    before = [newV.before];
+  } else {
+    before = newV.before || [];
+  }
+  const inBefore = curV.name && before.indexOf(curV.name) > -1;
+  return curVStage < newVStage && !inBefore;
 }

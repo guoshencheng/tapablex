@@ -6,6 +6,7 @@ export class StageNode<T> {
   constructor(value: T) {
     this.value = value;
   }
+
   add(node: StageNode<T>): StageNode<T> {
     const next = this.next;
     this.next = node;
@@ -64,6 +65,21 @@ export default class StageList<T> {
   first: StageNode<T>
 
   last: StageNode<T>
+
+  get length(): number {
+    if (!this.first) {
+      return 0;
+    } else {
+      let cur = this.first;
+      let length = 1;
+      while(cur.next) {
+        length ++;
+        cur = cur.next;
+      }
+      return length;
+    }
+  }
+
 
   init(value: T) {
     this.first = new StageNode<T>(value);
