@@ -34,4 +34,42 @@ export default class AsyncHook<T extends any[], R> extends Hook<T, AsyncHookCall
       }
     }
   }
+
+  callPromise(...args: T): Promise<any[]>;
+  callPromise(...args: T): Promise<R[] | any[] | undefined> {
+    return new Promise((resolve, reject) => {
+      const _args = [...args, (err: any, info: R[]) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(info);
+        }
+      }] as any;
+      this.callAsync(_args);
+    })
+  }
+
+  callAsync(...args: Append<T, HookCallBack<any[]>>): void;
+  callAsync(...args: Append<T, HookCallBack<R[] | any[] | undefined>>): void{
+    let cur = this.taps.first;
+    const callback = args[args.length - 1];
+    const result = [] as any[];
+    const next = () => {
+      const curTap = cur.value;
+      curTap.fn(args.slice(0, args.length - 1), (err: any, info: R) => {
+        if (err) {
+          callback(err);
+        } else {
+          result.push(info);
+          if (cur.next) {
+            cur = cur.next;
+            next();
+          } else {
+            callback(null, result);
+          }
+        }
+      });
+    }
+    next();
+  }
 }
