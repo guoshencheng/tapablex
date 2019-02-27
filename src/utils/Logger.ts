@@ -12,6 +12,12 @@ export default class Logger {
 
   static level: LoggerLevel
 
+  static deprecate(message?: any, ...optionalParams: any[]): void {
+    if (this.logable) {
+      this.logable.warn(message, ...optionalParams);
+    }
+  }
+
   static log(message?: any, ...optionalParams: any[]): void {
     if (this.logable && this.level <= 1) {
       try {

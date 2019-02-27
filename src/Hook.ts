@@ -1,4 +1,5 @@
 import StageList from './utils/StageList';
+import Logger from './utils/Logger';
 
 export type HookTapOpions<HOOKCALLBACK> = {
   fn?: HOOKCALLBACK,
@@ -14,8 +15,23 @@ export type HookTap<HOOKCALLBACK> = HookTapOpions<HOOKCALLBACK> & {
 
 export default class Hook<HOOKCALLBACK> {
 
+  $$type = 'HookBase'
+
   taps: {
     [key: string]: StageList<HookTap<HOOKCALLBACK>>
+  }
+
+  callPromise(..._: any): Promise<any> {
+    Logger.warn(`can't not call promise in ${this.$$type}`);
+    return Promise.resolve();
+  }
+
+  call(..._: any): any {
+    Logger.warn(`can't not call sync in ${this.$$type}`);
+  }
+
+  callAsync(..._: any) {
+    Logger.warn(`can't not call async in ${this.$$type}`);
   }
 
   constructor() {
