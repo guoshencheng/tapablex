@@ -1,10 +1,7 @@
 import Hook from './Hook';
 
-// import StageList from './utils/StageList';
-// import Logger from './utils/Logger';
-
 export type TapCallBack<T extends any[], R> = (...args: T) => R;
-export default class SyncHook<T extends any[], R> extends Hook<TapCallBack<T, R>> {
+export default class SyncHook<T extends any[], R = void> extends Hook<TapCallBack<T, R>> {
 
   protected $$type = 'SyncHook'
 

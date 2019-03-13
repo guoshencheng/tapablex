@@ -17,7 +17,7 @@ export default class Hook<HOOKCALLBACK> {
 
   protected $$type = 'HookBase'
 
-  taps: {
+  protected taps: {
     [key: string]: StageList<HookTap<HOOKCALLBACK>>
   }
 
