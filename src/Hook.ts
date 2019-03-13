@@ -15,7 +15,7 @@ export type HookTap<HOOKCALLBACK> = HookTapOpions<HOOKCALLBACK> & {
 
 export default class Hook<HOOKCALLBACK> {
 
-  $$type = 'HookBase'
+  protected $$type = 'HookBase'
 
   taps: {
     [key: string]: StageList<HookTap<HOOKCALLBACK>>
@@ -44,7 +44,7 @@ export default class Hook<HOOKCALLBACK> {
   // abstract callAsync(...args: Append<T, HookCallBack<R>>): void;
   // abstract promise(...args: T): Promise<R>
 
-  protected tap(event: string, option: HookTapOpions<HOOKCALLBACK> | HOOKCALLBACK, fn?: HOOKCALLBACK) {
+  tap(event: string, option: HookTapOpions<HOOKCALLBACK> | HOOKCALLBACK, fn?: HOOKCALLBACK) {
     let tap 
     if (typeof option === 'function') {
       tap = {
