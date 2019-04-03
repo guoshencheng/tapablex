@@ -3,8 +3,8 @@ import Logger from './utils/Logger';
 
 export type HookTapOpions<HOOKCALLBACK> = {
   fn?: HOOKCALLBACK,
-  stage?: number,
-  before?: string[] | string,
+  stage?: number, // stage means the power of hook, the bigger it is the front it is 
+  before?: string[] | string, // before means the hooks before, use name or name array
   name?: string,
 }
 

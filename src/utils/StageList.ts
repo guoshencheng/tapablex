@@ -56,6 +56,9 @@ export class StageNode<T> {
   }
 }
 
+// if return true the new node should be inserted into the front of current node
+// if return false the new node should be appended to the end of current node
+//
 export type StageSort<T> = (curV: T, newV: T) => boolean
 
 export type StageForeachCallback<T> = (value: T) => boolean | undefined | void;
