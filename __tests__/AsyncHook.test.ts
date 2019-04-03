@@ -23,7 +23,7 @@ describe('async hook call hook one by one in async', () => {
 
   it('hook can be call async successfully and one by one', () => {
     const hook = new AsyncHook<any, string>();
-    const EVENT = 'EVENT';
+    const EVENT = 'EVENT_ASYNC_SORT';
     const RESULT1 = 'RESULT1';
     const RESULT2 = 'RESULT2';
     const RESULT3 = 'RESULT3';

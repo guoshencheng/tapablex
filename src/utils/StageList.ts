@@ -34,7 +34,7 @@ export class StageNode<T> {
           return this.insert(node);
         }
       } else {
-        return this.insert(node);
+        return this.add(node);
       }
     }
   }
